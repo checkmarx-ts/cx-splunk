@@ -1,0 +1,80 @@
+{
+    "dataSources": {
+        "total_count_search": {
+            "type": "ds.search",
+            "options": { "query": " | stats count as projects | eval projects = 12" }
+        },
+        "High_Severity": {
+            "type": "ds.search",
+            "options": { "query": "| stats count as highVulnerabilities | eval highVulnerabilities = 64" }
+        },
+        "info_count_search": {
+            "type": "ds.search",
+            "options": { "query": "index=checkmarx | stats count as lowseverity | eval lowseverity = 102 " }
+        },
+        "Medium_Severity": {
+            "type": "ds.search",
+            "options": { "query": "index=_internal warning| stats count" }
+        },
+        "event_by_component_search": {
+            "type": "ds.search",
+            "options": { "query": "| stats count(bookstore.net) AS bookstore.net, count(webgoat) as webgoat, count(dvwa) as dvwa | eval bookstore.net=55 | eval webgoat=44 | eval dvwa=33  | transpose | rename \"row 1\" AS \"vulnerability_counts\" | rename \"column\" AS \"projects\"" }
+        },
+        "timeline_search": {
+            "type": "ds.search",
+            "options": { "query": "index=_internal | timechart count | rename \"count\" as \"Lines_Of_Code\"" }
+        }
+    },
+    "inputs": {},
+    "layout": {
+        "type": "absolute",
+        "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
+        "structure": [
+            { "item": "sv_total_projects", "position": { "h": 260, "w": 380, "x": 20, "y": 20 } },
+            { "item": "sv_low_severity", "position": { "h": 260, "w": 380, "x": 410, "y": 20 } },
+            { "item": "sv_medium_severity", "position": { "h": 260, "w": 380, "x": 800, "y": 20 } },
+            { "item": "sv_high_severity", "position": { "h": 260, "w": 380, "x": 1190, "y": 20 } },
+            { "item": "sv_vuln_distribution", "position": { "h": 250, "w": 770, "x": 800, "y": 290 } },
+            { "item": "sv_scans_timeline", "position": { "h": 250, "w": 770, "x": 20, "y": 290 } }
+        ]
+    },
+    "title": "Summary",
+    "description": "",
+    "visualizations": {
+        "sv_total_projects": {
+            "title": "On-Boarded projects",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#53a051" },
+            "dataSources": { "primary": "total_count_search" }
+        },
+        "sv_high_severity": {
+            "title": "High Severity Count",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#dc4e41" },
+            "dataSources": { "primary": "High_Severity" }
+        },
+        "sv_medium_severity": {
+            "title": "Medium Severity",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#f8be34" },
+            "dataSources": { "primary": "Medium_Severity" }
+        },
+        "sv_low_severity": {
+            "title": "Low Severity Count",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#294e70" },
+            "dataSources": { "primary": "info_count_search" }
+        },
+        "sv_vuln_distribution": {
+            "title": "Vulnerability distribution of High-Severity Vulnerabilities",
+            "type": "viz.pie",
+            "showPercentage": true,
+            "dataSources": { "primary": "event_by_component_search" }
+        },
+        "sv_scans_timeline": {
+            "title": "Project Scans timeline",
+            "type": "viz.area",
+            "dataSources": { "primary": "timeline_search" }
+        }
+    }
+}

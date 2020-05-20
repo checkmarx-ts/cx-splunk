@@ -1,0 +1,6 @@
+<nav color="#171d21">
+    <collection label="Checkmarx Summary">
+        <view name="summary" default="true"/>
+        <view name="visualizations"/>
+    </collection>
+</nav>
