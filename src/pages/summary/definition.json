@@ -2,27 +2,31 @@
     "dataSources": {
         "total_count_search": {
             "type": "ds.search",
-            "options": { "query": " | stats count as projects | eval projects = 12" }
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table distinct * |  stats COUNT AS (DISTINCT ProjectName)" }
+        },
+        "LOC_Count": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table distinct * | stats sum(LinesOfCode) as LOC" }
         },
         "High_Severity": {
             "type": "ds.search",
-            "options": { "query": "| stats count as highVulnerabilities | eval highVulnerabilities = 64" }
-        },
-        "info_count_search": {
-            "type": "ds.search",
-            "options": { "query": "index=checkmarx | stats count as lowseverity | eval lowseverity = 102 " }
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table distinct * | stats sum(High) as high" }
         },
         "Medium_Severity": {
             "type": "ds.search",
-            "options": { "query": "index=_internal warning| stats count" }
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table distinct * | stats sum(Medium) as medium" }
         },
-        "event_by_component_search": {
+        "Low_Severity": {
             "type": "ds.search",
-            "options": { "query": "| stats count(bookstore.net) AS bookstore.net, count(webgoat) as webgoat, count(dvwa) as dvwa | eval bookstore.net=55 | eval webgoat=44 | eval dvwa=33  | transpose | rename \"row 1\" AS \"vulnerability_counts\" | rename \"column\" AS \"projects\"" }
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table distinct * | stats sum(Low) as low" }
         },
-        "timeline_search": {
+        "project_pies": {
             "type": "ds.search",
-            "options": { "query": "index=_internal | timechart count | rename \"count\" as \"Lines_Of_Code\"" }
+            "options": { "query": "sourcetype=sast_scan_summary* latest=now | table distinct * | eval totalvulns=(High+Medium+Low) | table ProjectName, totalvulns" }
+        },
+        "loc_timeline": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=\"sast_scan_summary*\" latest=now | table ScanFinished, LinesOfCode" }
         }
     },
     "inputs": {},
@@ -30,12 +34,13 @@
         "type": "absolute",
         "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
         "structure": [
-            { "item": "sv_total_projects", "position": { "h": 260, "w": 380, "x": 20, "y": 20 } },
-            { "item": "sv_low_severity", "position": { "h": 260, "w": 380, "x": 410, "y": 20 } },
-            { "item": "sv_medium_severity", "position": { "h": 260, "w": 380, "x": 800, "y": 20 } },
-            { "item": "sv_high_severity", "position": { "h": 260, "w": 380, "x": 1190, "y": 20 } },
-            { "item": "sv_vuln_distribution", "position": { "h": 250, "w": 770, "x": 800, "y": 290 } },
-            { "item": "sv_scans_timeline", "position": { "h": 250, "w": 770, "x": 20, "y": 290 } }
+            { "item": "sv_total_projects", "position": { "h": 150, "w": 150, "x": 20, "y": 20 } },
+            { "item": "sv_loc_count", "position": { "h": 150, "w": 150, "x": 190, "y": 20 } },
+            { "item": "sv_low_severity", "position": { "h": 150, "w": 150, "x": 360, "y": 20 } },
+            { "item": "sv_medium_severity", "position": { "h": 150, "w": 150, "x": 530, "y": 20 } },
+            { "item": "sv_high_severity", "position": { "h": 150, "w": 150, "x": 700, "y": 20 } },
+            { "item": "sv_project_pies", "position": { "h": 250, "w": 770, "x": 800, "y": 290 } },
+            { "item": "sv_loc_timeline", "position": { "h": 250, "w": 770, "x": 20, "y": 290 } }
         ]
     },
     "title": "Summary",
@@ -47,34 +52,40 @@
             "options": { "backgroundColor": "#53a051" },
             "dataSources": { "primary": "total_count_search" }
         },
+        "sv_loc_count": {
+            "title": "Scanned LOC",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#dc4e41" },
+            "dataSources": { "primary": "LOC_Count" }
+        },
         "sv_high_severity": {
-            "title": "High Severity Count",
+            "title": "High",
             "type": "viz.singlevalue",
             "options": { "backgroundColor": "#dc4e41" },
             "dataSources": { "primary": "High_Severity" }
         },
         "sv_medium_severity": {
-            "title": "Medium Severity",
+            "title": "Medium",
             "type": "viz.singlevalue",
             "options": { "backgroundColor": "#f8be34" },
             "dataSources": { "primary": "Medium_Severity" }
         },
         "sv_low_severity": {
-            "title": "Low Severity Count",
+            "title": "Low",
             "type": "viz.singlevalue",
             "options": { "backgroundColor": "#294e70" },
-            "dataSources": { "primary": "info_count_search" }
+            "dataSources": { "primary": "Low_Severity" }
         },
-        "sv_vuln_distribution": {
+        "sv_project_pies": {
             "title": "Vulnerability distribution of High-Severity Vulnerabilities",
             "type": "viz.pie",
             "showPercentage": true,
-            "dataSources": { "primary": "event_by_component_search" }
+            "dataSources": { "primary": "project_pies" }
         },
-        "sv_scans_timeline": {
-            "title": "Project Scans timeline",
+        "sv_loc_timeline": {
+            "title": "Project Scans timeline (30 Days)",
             "type": "viz.area",
-            "dataSources": { "primary": "timeline_search" }
+            "dataSources": { "primary": "loc_timeline" }
         }
     }
 }

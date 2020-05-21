@@ -52,10 +52,16 @@ class Dashboard extends Component {
                     </ThemeSwitcher>
                     <DashboardCore
                         width="100%"
-                        height="calc(100vh - 78px)"
+                        height="100%" //calc(100vh - 78px)
                         definition={definition}
                         preset={EnterpriseViewOnlyPreset}
                     />
+                    {/* <DashboardCore
+                        width="100%"
+                        height="calc(100vh - 78px)"
+                        definition={definition}
+                        preset={EnterpriseViewOnlyPreset}
+                    /> */}
                 </Container>
             </ThemeProvider>
         );
