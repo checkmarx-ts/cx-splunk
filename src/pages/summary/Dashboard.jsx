@@ -56,12 +56,6 @@ class Dashboard extends Component {
                         definition={definition}
                         preset={EnterpriseViewOnlyPreset}
                     />
-                    {/* <DashboardCore
-                        width="100%"
-                        height="calc(100vh - 78px)"
-                        definition={definition}
-                        preset={EnterpriseViewOnlyPreset}
-                    /> */}
                 </Container>
             </ThemeProvider>
         );
