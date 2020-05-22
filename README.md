@@ -19,6 +19,7 @@ cx-Splunk is a React App for Splunk to gain information usage, insight Checkmarx
 
 
 # Development
+* [Getting started - Splunk + React](https://conf.splunk.com/files/2019/slides/DEV1141.pdf)
 * `yarn install` - install dependencies.
 * `yarn run dev` - start the project in dev mode. This command will symlink the project into your Splunk instance. 
 * Restart your Splunk instance if it's the first time you setup this project. `Checkmarx` application should shows up in app bar.
