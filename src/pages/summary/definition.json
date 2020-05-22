@@ -31,6 +31,10 @@
         "vuln_timeline": {
             "type": "ds.search",
             "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ScanFinished, ProjectName, TeamName | eval vulnerabilities=(High+Medium+Low) | table ScanFinished, vulnerabilities" }
+        },
+        "risk_average": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName, ScanFinished, ScanRisk | stats sum(ScanRisk) AS risk count(ProjectName) as projects | eval riskAverage=risk/projects | table riskAverage" }
         }
     },
     "inputs": {},
@@ -47,7 +51,9 @@
             { "item": "sv_project_pies", "position": { "h": 250, "w": 700, "x": 870, "y": 20 } },
 
             { "item": "sv_loc_timeline", "position": { "h": 250, "w": 770, "x": 20, "y": 190 } },
-            { "item": "sv_vuln_timeline", "position": { "h": 250, "w": 700, "x": 870, "y": 290 } }
+            { "item": "sv_vuln_timeline", "position": { "h": 250, "w": 700, "x": 870, "y": 290 } },
+
+            { "item": "sv_risk_average", "position": { "h": 150, "w": 150, "x": 20, "y": 460 } }
         ]
     },
     "title": "Summary",
@@ -98,6 +104,12 @@
             "title": "Vulnerabilities timeline (30 Days)",
             "type": "viz.area",
             "dataSources": { "primary": "vuln_timeline" }
+        },
+        "sv_risk_average": {
+            "title": "Average Risk",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#dc4e41" },
+            "dataSources": { "primary": "risk_average" }
         }
     }
 }
