@@ -3,7 +3,7 @@ import layout from '@splunk/react-page';
 import Dashboard from './Dashboard';
 
 layout(<Dashboard />, {
-    pageTitle: 'Summary',
+    pageTitle: 'Checkmarx Summary',
     hideFooter: true,
     layout: 'fixed',
 });

@@ -1,0 +1,25 @@
+{
+    "dataSources": {
+        "recurringVulnerabilities": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_detail* FalsePositive=False | table ProjectName, NodeFileName, VulnerabilityId, SimilarityId, QueryName, QueryGroup, QueryLanguage, QuerySeverity, _time | sort 0 - _time | stats count(VulnerabilityId) as recurrence by ProjectName, QueryName, QuerySeverity, NodeFileName | where recurrence > 1" }
+        }
+    },
+    "inputs": {},
+    "layout": {
+        "type": "absolute",
+        "options": { "width": "auto-scale", "height": "auto-scale" , "display": "auto-scale" },
+        "structure": [
+            { "item": "sv_recurring_vulnerabilities"}
+        ]
+    },
+    "title": "Summary",
+    "description": "",
+    "visualizations": {
+        "sv_recurring_vulnerabilities": {
+            "title": "Recurring Vulnerabilities",
+            "type": "viz.table",
+            "dataSources": { "primary": "recurringVulnerabilities" }
+        }
+    }
+}
