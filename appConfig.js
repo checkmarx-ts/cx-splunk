@@ -1,3 +1,3 @@
 module.exports = {
-    id: 'Checkmarx',
+    id: 'checkmarx',
 };
