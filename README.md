@@ -1,9 +1,10 @@
 # Cx-Splunk
 cx-Splunk is a React App for Splunk to gain information usage, insight Checkmarx's results as well as observe trends across projects.
 
-# v0.0.1 - Beta - Caveat!
-1. To use this current version, Once CxAnalytix is configured splunk search query changes need to be performed in `src/pages/summary/definition.json`.
-2. By default, v0.0.1 comes with Mock search. This will soon be changed to match [CxAnalytix Specs](https://github.com/checkmarx-ts/CxAnalytix/blob/master/SPEC.md).
+# v0.0.1 
+1. CxAnalytix - CxAnalytix is a nimble tool to fetch data from Checkmarx CxSAST. 
+2. Logs from CxAnalytix are indexed into Splunk.
+3. Current version generates dashboards and visualizations based on this data indexed into splunk.
 
 # Prerequisites
 * Install [`CxAnalytix`](https://github.com/checkmarx-ts/CxAnalytix). Visit the below section [below](#CxAnalytix) for more information.
