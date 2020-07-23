@@ -1,0 +1,25 @@
+{
+    "dataSources": {
+        "presets": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_project_info* | stats count by Preset | table Preset, count" }
+        }
+    },
+    "inputs": {},
+    "layout": {
+        "type": "absolute",
+        "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
+        "structure": [
+            { "item": "sv_presets", "position": { "h": 800, "w": 1000, "x": 20, "y": 20 } }
+        ]
+    },
+    "title": "Presets",
+    "description": "",
+    "visualizations": {
+        "sv_presets": {
+            "title": "Presets",
+            "type": "viz.bar",
+            "dataSources": { "primary": "presets" }
+        }
+    }
+}

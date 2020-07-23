@@ -1,0 +1,60 @@
+{
+    "dataSources": {
+        "uniq_vulns": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_detail* latest=now | dedup QueryCweId | stats count(QueryCweId) as UniqueVulnerabilities" }
+        },
+        "uniq_teams": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_detail* | dedup TeamName | stats count(TeamName) as unique_teams" }
+        },
+        "uniqueness": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_detail* | stats count(SimilarityId) as sims, dc(SimilarityId) as dist_sims | eval similarity=round((dist_sims/sims)*100, 2) | table similarity" }
+        },
+        "fp_rate": {
+            "type": "ds.search",
+            "options": { "query": "sourcetype=sast_scan_detail* | stats count by FalsePositive | table FalsePositive, count" }
+        }
+        
+    },
+    "inputs": {},
+    "layout": {
+        "type": "absolute",
+        "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
+        "structure": [
+            { "item": "sv_uniq_vulns", "position": { "h": 400, "w": 400, "x": 20, "y": 20 } },
+            { "item": "sv_uniq_teams", "position": { "h": 400, "w": 400, "x": 440, "y": 20 } },
+            { "item": "sv_uniqueness", "position": { "h": 400, "w": 400, "x": 20, "y": 440 } },
+            { "item": "sv_fp_rate", "position": { "h": 400, "w": 400, "x": 880, "y": 20 } }
+        ]
+    },
+    "title": "Detail",
+    "description": "",
+    "visualizations": {
+        "sv_uniq_vulns": {
+            "title": "Unique Vulnerabilities",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#53a051" },
+            "dataSources": { "primary": "uniq_vulns" }
+        },
+        "sv_uniq_teams": {
+            "title": "Unique Teams",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#9999ff" },
+            "dataSources": { "primary": "uniq_teams" }
+        },
+        "sv_uniqueness": {
+            "title": "Unique Vulnerability Patterns (Percentage)",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#dc4e41" },
+            "dataSources": { "primary": "uniqueness" }
+        },
+        "sv_fp_rate": {
+            "title": "False Positive Rate",
+            "type": "viz.pie",
+            "showPercentage": true,
+            "dataSources": { "primary": "Medium_Severity" }
+        }
+    }
+}

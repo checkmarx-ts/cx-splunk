@@ -1,8 +1,8 @@
 {
     "name": "checkmarx",
     "version": "0.0.1",
-    "repository": "t",
-    "author": "Uday Korlimarla <Uday.Korlimarla@checkmarx.com>",
+    "repository": "https://github.com/checkmarx-ts/cx-splunk",
+    "author": "checkmarx-ts",
     "license": "MIT",
     "scripts": {
         "build": "npm run prepare_splunk && cross-env NODE_ENV=production webpack --config ./webpack.config.js --bail",

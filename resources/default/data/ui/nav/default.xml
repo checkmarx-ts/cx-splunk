@@ -1,6 +1,10 @@
 <nav color="#171d21">
     <view name="summary" default="true"/>
     <collection label="Projects">
+        <view name="detail"/>
+        <view name="languages"/>
+        <view name="VulnerabilityAppearances"/>
         <view name="RecurringVulnerabilities"/>
     </collection>
+    <view name="presets"/>
 </nav>
