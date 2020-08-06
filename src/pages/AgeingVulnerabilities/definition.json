@@ -2,7 +2,7 @@
     "dataSources": {
         "recurringVulnerabilities": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_detail* FalsePositive=False | table ProjectName, NodeFileName, VulnerabilityId, SimilarityId, QueryName, QueryGroup, QueryLanguage, QuerySeverity, _time | sort 0 - _time | stats count(VulnerabilityId) as recurrence by ProjectName, QueryName, QuerySeverity, NodeFileName | where recurrence > 1" }
+            "options": { "query": "sourcetype=sast_scan_detail* | stats count by QueryName, ProjectName, QuerySeverity, _time | rename count as occurence, _time as time, QuerySeverity as Severity, QueryName as Vulnerability | eval days_ago=ceiling((now() - time)/86400) |table ProjectName, Vulnerability, Severity, days_ago" }
         }
     },
     "inputs": {},

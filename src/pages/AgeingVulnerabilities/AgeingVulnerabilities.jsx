@@ -19,7 +19,7 @@ const ThemeSwitcher = styled.div`
     z-index: 100;
 `;
 
-class RecurringVulnerabilities extends Component {
+class AgeingVulnerabilities extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -62,4 +62,4 @@ class RecurringVulnerabilities extends Component {
     }
 }
 
-export default RecurringVulnerabilities;
+export default AgeingVulnerabilities;

@@ -2,47 +2,47 @@
     "dataSources": {
         "total_count_search": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName |  stats COUNT AS (DISTINCT ProjectName)" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName |  stats COUNT AS (DISTINCT ProjectName)" }
         },
         "LOC_Count": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(LinesOfCode) as LOC" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(LinesOfCode) as LOC" }
         },
         "High_Severity": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(High) as high" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(High) as high" }
         },
         "Medium_Severity": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(Medium) as medium" }
+            "options": {"refresh": "120s",  "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(Medium) as medium" }
         },
         "Low_Severity": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(Low) as low" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName | stats sum(Low) as low" }
         },
         "project_pies": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=now | dedup ProjectName, TeamName | eval vulnerabilities=(High+Medium+Low) | table ProjectName, vulnerabilities" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ProjectName, TeamName | eval vulnerabilities=(High+Medium+Low) | top limit=5 ProjectName, vulnerabilities | table ProjectName, vulnerabilities" }
         },
         "loc_timeline": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ScanFinished, ProjectName, TeamName |table ScanFinished, LinesOfCode" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ScanFinished, ProjectName, TeamName |table ScanFinished, LinesOfCode" }
         },
         "vuln_timeline": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ScanFinished, ProjectName, TeamName | eval vulnerabilities=(High+Medium+Low) | table ScanFinished, vulnerabilities" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ScanFinished, ProjectName, TeamName | eval vulnerabilities=(High+Medium+Low) | table ScanFinished, vulnerabilities" }
         },
         "risk_average": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName, ScanFinished, ScanRisk | stats sum(ScanRisk) AS risk count(ProjectName) as projects | eval riskAverage=risk/projects | table riskAverage" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName, ScanFinished, ScanRisk | stats sum(ScanRisk) AS risk count(ProjectName) as projects | eval riskAverage=risk/projects | table riskAverage" }
         },
         "proj_average": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName | table High, Low, Medium, ProjectName | eval vuln_per_project=(High+Medium+Low) | stats count(ProjectName) as projects, sum(vuln_per_project) as total_vulns | eval average_vulnerability_per_project=total_vulns/projects | table average_vulnerability_per_project"}
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName | table High, Low, Medium, ProjectName | eval vuln_per_project=(High+Medium+Low) | stats count(ProjectName) as projects, sum(vuln_per_project) as total_vulns | eval average_vulnerability_per_project=total_vulns/projects | table average_vulnerability_per_project"}
         },
         "preset_count": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName | table Preset | dedup Preset | stats count(Preset) as presets | table presets"}
+            "options": { "refresh": "120s",  "query": "sourcetype=sast_scan_summary* latest=+30d | dedup ProjectName, TeamName | table Preset | dedup Preset | stats count(Preset) as presets | table presets"}
         }
     },
     "inputs": {},
@@ -59,7 +59,7 @@
             { "item": "sv_project_pies", "position": { "h": 250, "w": 700, "x": 870, "y": 20 } },
 
             { "item": "sv_loc_timeline", "position": { "h": 250, "w": 830, "x": 20, "y": 190 } },
-            { "item": "sv_vuln_timeline", "position": { "h": 250, "w": 700, "x": 870, "y": 290 } },
+            { "item": "sv_vuln_timeline", "position": { "h": 250, "w": 700, "x": 870, "y": 300 } },
 
             { "item": "sv_risk_average", "position": { "h": 150, "w": 250, "x": 20, "y": 460 } },
             { "item": "sv_proj_average", "position": { "h": 150, "w": 250, "x": 290, "y": 460 } },
@@ -90,19 +90,18 @@
         "sv_medium_severity": {
             "title": "Medium",
             "type": "viz.singlevalue",
-            "options": { "backgroundColor": "#f8be34" },
+            "options": { "backgroundColor": "#ff9933" },
             "dataSources": { "primary": "Medium_Severity" }
         },
         "sv_low_severity": {
             "title": "Low",
             "type": "viz.singlevalue",
-            "options": { "backgroundColor": "#294e70" },
+            "options": { "backgroundColor": "#f8be34" },
             "dataSources": { "primary": "Low_Severity" }
         },
         "sv_project_pies": {
-            "title": "Vulnerability distribution of High-Severity Vulnerabilities",
-            "type": "viz.pie",
-            "showPercentage": true,
+            "title": "Top 5 Vulnerable projects",
+            "type": "viz.column",
             "dataSources": { "primary": "project_pies" }
         },
         "sv_loc_timeline": {
@@ -124,7 +123,7 @@
         "sv_proj_average": {
             "title": "Average Vulnerabilites per Project",
             "type": "viz.singlevalue",
-            "options": { "backgroundColor": "#294e70" },
+            "options": { "backgroundColor": "#ff9933" },
             "dataSources": { "primary": "proj_average" }
         },
         "sv_preset_count": {

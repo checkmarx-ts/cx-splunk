@@ -14,19 +14,24 @@
         },
         "fp_rate": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_detail* | stats count by FalsePositive | table FalsePositive, count" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_detail* latest=now | stats count by FalsePositive | rename count as marked_as | table FalsePositive , marked_as" }
+        },
+        "scans_count": {
+            "type": "ds.search",
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* | stats distinct_count(ScanId)" }
         }
         
     },
     "inputs": {},
     "layout": {
         "type": "absolute",
-        "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
+        "options": { "width": 1600, "height": 1200, "display": "auto-scale" },
         "structure": [
-            { "item": "sv_uniq_vulns", "position": { "h": 400, "w": 400, "x": 20, "y": 20 } },
-            { "item": "sv_uniq_teams", "position": { "h": 400, "w": 400, "x": 440, "y": 20 } },
-            { "item": "sv_uniqueness", "position": { "h": 400, "w": 400, "x": 20, "y": 440 } },
-            { "item": "sv_fp_rate", "position": { "h": 400, "w": 400, "x": 880, "y": 20 } }
+            { "item": "sv_uniq_vulns", "position": { "h": 300, "w": 300, "x": 20, "y": 20 } },
+            { "item": "sv_uniq_teams", "position": { "h": 300, "w": 300, "x": 340, "y": 20 } },
+            { "item": "sv_uniqueness", "position": { "h": 300, "w": 300, "x": 20, "y": 340 } },
+            { "item": "sv_fp_rate", "position": { "h": 300, "w": 300, "x": 660, "y": 20 } },
+            { "item": "sv_scans_count", "position": { "h": 300, "w": 300, "x": 340, "y": 340 } }
         ]
     },
     "title": "Detail",
@@ -41,7 +46,7 @@
         "sv_uniq_teams": {
             "title": "Unique Teams",
             "type": "viz.singlevalue",
-            "options": { "backgroundColor": "#9999ff" },
+            "options": { "backgroundColor": "#ff9933" },
             "dataSources": { "primary": "uniq_teams" }
         },
         "sv_uniqueness": {
@@ -54,7 +59,13 @@
             "title": "False Positive Rate",
             "type": "viz.pie",
             "showPercentage": true,
-            "dataSources": { "primary": "Medium_Severity" }
+            "dataSources": { "primary": "fp_rate" }
+        },
+        "sv_scans_count": {
+            "title": "Scans",
+            "type": "viz.singlevalue",
+            "options": { "backgroundColor": "#9999ff" },
+            "dataSources": { "primary": "scans_count" }
         }
     }
 }

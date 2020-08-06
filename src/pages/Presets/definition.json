@@ -10,7 +10,7 @@
         "type": "absolute",
         "options": { "width": 1600, "height": 1000, "display": "auto-scale" },
         "structure": [
-            { "item": "sv_presets", "position": { "h": 800, "w": 1000, "x": 20, "y": 20 } }
+            { "item": "sv_presets", "position": { "h": 600, "w": 1000, "x": 20, "y": 20 } }
         ]
     },
     "title": "Presets",
