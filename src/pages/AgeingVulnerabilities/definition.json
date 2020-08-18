@@ -2,7 +2,7 @@
     "dataSources": {
         "recurringVulnerabilities": {
             "type": "ds.search",
-            "options": { "query": "sourcetype=sast_scan_detail* | stats count by QueryName, ProjectName, QuerySeverity, _time | rename count as occurence, _time as time, QuerySeverity as Severity, QueryName as Vulnerability | eval days_ago=ceiling((now() - time)/86400) |table ProjectName, Vulnerability, Severity, days_ago" }
+            "options": { "query": "sourcetype=sast_scan_detail* | stats count by QueryName, ProjectName, QuerySeverity, _time | rename count as occurence, _time as time, QuerySeverity as Severity, QueryName as Vulnerability | eval Age(in_days)=ceiling((now() - time)/86400) | table ProjectName, Vulnerability, Severity, Age(in_days)" }
         }
     },
     "inputs": {},

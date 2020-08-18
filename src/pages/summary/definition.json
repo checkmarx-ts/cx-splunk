@@ -2,7 +2,7 @@
     "dataSources": {
         "total_count_search": {
             "type": "ds.search",
-            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ScanFinished, ProjectName, TeamName |  stats COUNT AS (DISTINCT ProjectName)" }
+            "options": { "refresh": "120s", "query": "sourcetype=sast_scan_summary* latest=now | dedup ProjectName, TeamName |  stats distinct_count(ProjectName)" }
         },
         "LOC_Count": {
             "type": "ds.search",
