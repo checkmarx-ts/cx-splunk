@@ -17,6 +17,17 @@ To install Cx-Splunk i.e. the Checkmarx Dashboard, please visit the [wiki here](
 * Install `yarn` as the package manager.
 * In Windows environment, to avoid any file permission issues start the command prompt with "Run as Administrator" to run the commands mentioned in the [Development](#development) section.
 
+# Splunk Indexes and permissions
+:warning: Note on Splunk Indexes
+* Splunk requires data to be indexed. If none are choses, the default destiantion is to the index named `main`.
+* When Using a specific index, for instance `cx-splunk-index`, It is essential to ensure that this index `cx-splunk-index` is searchable by default by user roles.
+* More documentation is [available here on Splunk Docs](https://docs.splunk.com/Documentation/Splunk/6.4.1/Admin/Indexesconf)
+* Troubleshooting indexes docs for Splunk [is here](https://docs.splunk.com/Documentation/ES/6.2.0/Admin/Troubleshootdefaultadminsearches)
+* Splunk Role-based access and inheritence is [documented here.](https://docs.splunk.com/Documentation/Splunk/8.0.5/Security/Aboutusersandroles)
+* For Advanced Splunkers, Please change authorize.conf for user roles to ensure that Checkmarx Sourcetypes are [searchable by default based on roles] (https://docs.splunk.com/Documentation/Splunk/8.0.5/Security/Addandeditroleswithauthorizeconf)
+* You need your index to be part of a default search for Checkmarx Splunk App to work as expected.
+* Please beware, that Splunk indexes are immutable. Ensure that your index is as intended.
+
 # CxAnalytix
 * `CxAnalytix` is our supported & recommended way to fetch analytical data for Splunk is the key dependency in-order to make use of `Cx-Splunk`.
 * `CxAnalytix` [installation guide](https://github.com/checkmarx-ts/CxAnalytix/wiki/Installation) can be found here.
