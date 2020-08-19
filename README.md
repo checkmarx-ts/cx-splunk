@@ -17,6 +17,12 @@ To install Cx-Splunk i.e. the Checkmarx Dashboard, please visit the [wiki here](
 * Install `yarn` as the package manager.
 * In Windows environment, to avoid any file permission issues start the command prompt with "Run as Administrator" to run the commands mentioned in the [Development](#development) section.
 
+# Note on Splunk Indexes
+* Splunk requires data to be indexed. If none are choses, the default destiantion is to the index named `main`.
+* When Using a specific index, for instance `cx-splunk-index`, It is essential to ensure that this index `cx-splunk-index` is searchable by default by user roles.
+* More documentation is [available here on Splunk Docs](https://docs.splunk.com/Documentation/Splunk/6.4.1/Admin/Indexesconf)
+* Troubleshooting indexes docs for Splunk [is here](https://docs.splunk.com/Documentation/ES/6.2.0/Admin/Troubleshootdefaultadminsearches)
+
 # CxAnalytix
 * `CxAnalytix` is our supported & recommended way to fetch analytical data for Splunk is the key dependency in-order to make use of `Cx-Splunk`.
 * `CxAnalytix` [installation guide](https://github.com/checkmarx-ts/CxAnalytix/wiki/Installation) can be found here.
