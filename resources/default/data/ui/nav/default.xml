@@ -3,7 +3,7 @@
     <collection label="Metrics">
         <view name="detail"/>
         <view name="languages"/>
-        <view name="AgeingVulnerabilities"/>
+        <view name="ageingVulnerabilities"/>
     </collection>
     <view name="presets"/>
 </nav>
