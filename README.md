@@ -4,6 +4,11 @@ cx-Splunk is a React App for Splunk to gain information usage, insight Checkmarx
 # Installation
 
 To install Cx-Splunk i.e. the Checkmarx Dashboard, please visit the [wiki here](https://github.com/checkmarx-ts/cx-splunk/wiki/Installation).
+To change to your specified index (v0.0.2 onwards), please visit the [wiki here](https://github.com/checkmarx-ts/cx-splunk/wiki/Changing-to-a-custom-splunk-index)
+
+# v0.0.2
+1. All file names now follow lower snake case style.
+2. The app is now configurable in terms of choosing which splunk index needs to be queried. The default index for Cx-Splunk app now is `cx-splunk-index` and can be changed to any other custom index by following [wiki here](https://github.com/checkmarx-ts/cx-splunk/wiki/Changing-to-a-custom-splunk-index)
 
 # v0.0.1 
 1. CxAnalytix - CxAnalytix is a nimble tool to fetch data from Checkmarx CxSAST. 
@@ -19,7 +24,7 @@ To install Cx-Splunk i.e. the Checkmarx Dashboard, please visit the [wiki here](
 
 # Splunk Indexes and permissions
 :warning: Note on Splunk Indexes
-* Splunk requires data to be indexed. If none are choses, the default destiantion is to the index named `main`.
+* Splunk requires data to be indexed. If none are chosen, the default destination is to the index named `main`.
 * When Using a specific index, for instance `cx-splunk-index`, It is essential to ensure that this index `cx-splunk-index` is searchable by default by user roles.
 * More documentation is [available here on Splunk Docs](https://docs.splunk.com/Documentation/Splunk/6.4.1/Admin/Indexesconf)
 * Troubleshooting indexes docs for Splunk [is here](https://docs.splunk.com/Documentation/ES/6.2.0/Admin/Troubleshootdefaultadminsearches)

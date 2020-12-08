@@ -1,4 +1,7 @@
 <%!
+import time
+ts = time.time()
+ts_qs = dict(v=ts)
 app_name = cherrypy.request.path_info.split('/')[3]
 app_root = "/" + "/".join(["static","app",app_name])
 config_qs = dict(autoload=1)
@@ -22,7 +25,8 @@ config_qs = dict(autoload=1)
     <script>
         __splunkd_partials__ = ${ json_decode(splunkd) };
     </script>
-    <script src="${make_url('/static/app/%s/build/%s.js' % (app_name, page))}"></script>
+    <script src="${make_url('%s/cx-splunk-config.js' % (app_root), _qs=ts_qs)}"></script>
+    <script src="${make_url('%s/build/%s.js' % (app_root, page))}"></script>
 </body>
 
 </html>

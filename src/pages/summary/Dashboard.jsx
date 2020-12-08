@@ -24,8 +24,13 @@ class Dashboard extends Component {
         super(props, context);
         this.state = {
             themeId: 'enterpriseDark',
+            definition: definition,
+            cxIndex: typeof config !== "undefined" ? config.cxIndex : "main"
         };
         this.handleThemeChange = this.handleThemeChange.bind(this);
+        if (this.state.cxIndex !== "main") {
+            this.state.definition = JSON.parse(JSON.stringify(this.state.definition).replaceAll("sourcetype=", "index=" + this.state.cxIndex + " sourcetype="));
+        }
     }
 
     handleThemeChange(e, { value }) {
@@ -53,7 +58,7 @@ class Dashboard extends Component {
                     <DashboardCore
                         width="100%"
                         height="100%" //calc(100vh - 78px)
-                        definition={definition}
+                        definition={this.state.definition}
                         preset={EnterpriseViewOnlyPreset}
                     />
                 </Container>

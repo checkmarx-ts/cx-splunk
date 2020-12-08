@@ -19,13 +19,18 @@ const ThemeSwitcher = styled.div`
     z-index: 100;
 `;
 
-class AgeingVulnerabilities extends Component {
+class Presets extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             themeId: 'enterpriseDark',
+            definition: definition,
+            cxIndex: typeof config !== "undefined" ? config.cxIndex : "main"
         };
         this.handleThemeChange = this.handleThemeChange.bind(this);
+        if (this.state.cxIndex !== "main") {
+            this.state.definition = JSON.parse(JSON.stringify(this.state.definition).replace("sourcetype=", "index=" + this.state.cxIndex + " sourcetype="));
+        }
     }
 
     handleThemeChange(e, { value }) {
@@ -53,7 +58,7 @@ class AgeingVulnerabilities extends Component {
                     <DashboardCore
                         width="100%"
                         height="100%" //calc(100vh - 78px)
-                        definition={definition}
+                        definition={this.state.definition}
                         preset={EnterpriseViewOnlyPreset}
                     />
                 </Container>
@@ -62,4 +67,4 @@ class AgeingVulnerabilities extends Component {
     }
 }
 
-export default AgeingVulnerabilities;
+export default Presets;

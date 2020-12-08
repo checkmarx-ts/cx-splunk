@@ -5,7 +5,7 @@
     "author": "checkmarx-ts",
     "license": "MIT",
     "scripts": {
-        "build": "npm run prepare_splunk && cross-env NODE_ENV=production webpack --config ./webpack.config.js --bail",
+        "build": "npm run prepare_splunk && cross-env NODE_ENV=production webpack --config ./webpack.config.js --bail && cp -v ./src/cx-splunk-config.js ./build/checkmarx/appserver/static/ && echo ok",
         "package": "echo package",
         "symlink": "node ./tools/symlink",
         "prepare_splunk": "node ./tools/prepare",
