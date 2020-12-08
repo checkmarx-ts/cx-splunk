@@ -1,6 +1,6 @@
 {
     "name": "checkmarx",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "repository": "https://github.com/checkmarx-ts/cx-splunk",
     "author": "checkmarx-ts",
     "license": "MIT",
